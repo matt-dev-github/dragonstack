@@ -1,0 +1,19 @@
+{
+  "dependencies": {
+    "parcel": "^2.7.0",
+    "process": "^0.11.10"
+  },
+  "name": "dragonstack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "start": "nf start",
+    "backend": "nodemon backend/bin/server",
+    "frontend": "parcel frontend/src/index.html"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
