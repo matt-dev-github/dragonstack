@@ -1,62 +1,40 @@
-const express = require('express');
-const cors = require('cors');
-const GenerationEngine = require("./generation/engine")
-const dragonRouter = require('./api/dragon');
-const generationRouter = require('./api/generations');
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
+const GenerationEngine = require("./generation/engine");
+const dragonRouter = require("./api/dragon");
+const generationRouter = require("./api/generations");
+const accountRouter = require("./api/account");
 
 const app = express();
 const engine = new GenerationEngine();
 
 app.locals.engine = engine;
 
-app.use(cors({ origin: 'http://localhost:5100' }));
+app.use(cors({ origin: "http://localhost:5100" }));
+app.use(bodyParser.json());
+app.use(cookieParser());
 
+// routes traffic to /account urls to use the accountRouter
+app.use("/account", accountRouter);
 // routes traffic to /dragon urls to use the dragonRouter
-app.use('/dragon', dragonRouter);
+app.use("/dragon", dragonRouter);
 // routes traffic to /generation urls to use the generationRouter
-app.use('/generation', generationRouter);
+app.use("/generation", generationRouter);
 
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
+  const statusCode = err.statusCode || 500;
 
-    res.status(statusCode).json({
-        type: 'error', message: err.message
-    })
+  res.status(statusCode).json({
+    type: "error",
+    message: err.message,
+  });
 });
 
 engine.start();
 
 module.exports = app;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // setTimeout(() => {
 //     engine.stop();
